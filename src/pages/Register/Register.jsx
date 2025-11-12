@@ -2,6 +2,9 @@ import { useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router";
 import { toast } from "react-hot-toast";
 import { FaGoogle } from "react-icons/fa";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import { auth } from "../../config/config.firebase";
+import useAxios from "../../hooks/useAxios";
 
 const Register = () => {
     const [name, setName] = useState("");
@@ -10,6 +13,7 @@ const Register = () => {
     const [password, setPassword] = useState("");
     const [passwordError, setPasswordError] = useState("");
     const [loading, setLoading] = useState(false);
+    const axios = useAxios()
 
     const navigate = useNavigate();
     const location = useLocation();
@@ -44,10 +48,46 @@ const Register = () => {
         }
 
         try {
-            // 👉 Replace this with your actual register logic (Firebase/AuthContext/etc.)
             console.log({ name, email, photoURL, password });
-            toast.success("Registration Successful!");
-            navigate(from, { replace: true });
+            createUserWithEmailAndPassword(auth, email, password)
+                .then((userCredential) => {
+                    // Signed up 
+                    const user = userCredential.user;
+                    console.log(user);
+                    const { metadata: { createdAt, creationTime, lastSignInTime, lastLoginAt }, uid} = user; 
+
+                    const userDataToRegister = {
+                        displayName: name, 
+                        email, 
+                        photoURL, createdAt, creationTime, lastSignInTime, lastLoginAt, uid
+                    }; 
+                    const resultFromServer = axios.post('/register', userDataToRegister); 
+                    if(!resultFromServer.success){
+                        toast.error(resultFromServer.message); 
+                    } else {
+                        toast.success(resultFromServer.message)
+                    }
+
+
+                    updateProfile(auth.currentUser, {
+                        displayName: name, photoURL: photoURL
+                    }).then(() => {
+                        // Profile updated!
+                        // ...
+                    }).catch((error) => {
+                        // An error occurred
+                        console.log(error?.message);
+                    });
+
+
+                    toast.success("Registration Successful!");
+                    navigate(from, { replace: true });
+                })
+                .catch((error) => {
+                    const errorCode = error.code;
+                    const errorMessage = error.message;
+                    console.log({errorCode, errorMessage});
+                });
         } catch (err) {
             toast.error("Registration Failed!");
             console.log(err?.message);
