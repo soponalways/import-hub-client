@@ -8,6 +8,7 @@ const NavBar = () => {
             <li><Link to='my-exports'>My Exports</Link></li>
             <li><Link to='my-imports'>My Imports</Link></li>
             <li><Link to='add-export'>Add Export</Link></li>
+            <li><Link to='about-us'>About us</Link></li>
         </>
     }; 
 
