@@ -2,9 +2,9 @@ import { useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router";
 import { toast } from "react-hot-toast";
 import { FaGoogle } from "react-icons/fa";
-import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth } from "../../config/config.firebase";
 import useAxios from "../../hooks/useAxios";
+import useAuth from "../../hooks/useAuth";
 
 const Register = () => {
     const [name, setName] = useState("");
@@ -13,7 +13,8 @@ const Register = () => {
     const [password, setPassword] = useState("");
     const [passwordError, setPasswordError] = useState("");
     const [loading, setLoading] = useState(false);
-    const axios = useAxios()
+    const axios = useAxios(); 
+    const { createUser, updateUserProfile } = useAuth();
 
     const navigate = useNavigate();
     const location = useLocation();
@@ -49,7 +50,7 @@ const Register = () => {
 
         try {
             console.log({ name, email, photoURL, password });
-            createUserWithEmailAndPassword(auth, email, password)
+            createUser(email, password)
                 .then((userCredential) => {
                     // Signed up 
                     const user = userCredential.user;
@@ -69,7 +70,7 @@ const Register = () => {
                     }
 
 
-                    updateProfile(auth.currentUser, {
+                    updateUserProfile({
                         displayName: name, photoURL: photoURL
                     }).then(() => {
                         // Profile updated!
