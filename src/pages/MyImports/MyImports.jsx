@@ -31,7 +31,7 @@ const MyImports = () => {
 
         if (confirm.isConfirmed) {
             try {
-                await axios.delete(`https://your-server-url.com/imports/${id}`);
+                await axios.delete(`/imports/${id}`);
                 setImports(imports.filter((item) => item._id !== id));
                 Swal.fire("Removed!", "Product has been removed successfully.", "success");
             } catch (error) {
