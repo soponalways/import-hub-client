@@ -2,11 +2,15 @@ import { useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router";
 import { toast } from "react-hot-toast";
 import { FaGoogle } from "react-icons/fa";
+import useAuth from "../../hooks/useAuth";
+import useAxios from "../../hooks/useAxios";
 
 const Login = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [loading, setLoading] = useState(false);
+    const { signInWithGoogle, signIn } = useAuth(); 
+    const axios = useAxios(); 
 
     const navigate = useNavigate();
     const location = useLocation();
@@ -17,12 +21,21 @@ const Login = () => {
         setLoading(true);
 
         try {
-            if (email === "user@example.com" && password === "123456") {
-                toast.success("Login Successful!");
-                navigate(from, { replace: true });
-            } else {
-                throw new Error("Invalid email or password");
-            }
+            signIn(email, password)
+                .then((userCredential) => {
+                    // Signed in 
+                    const user = userCredential.user;
+                    toast.success(`Login Successful as ${user?.displayName}`);
+                    navigate(from, { replace: true });
+
+                })
+                .catch((error) => {
+                    toast.error("Invalid Email and password")
+                    const errorCode = error.code;
+                    const errorMessage = error.message;
+                    console.log([errorCode, errorMessage]);
+                });
+
         } catch (err) {
             toast.error(err.message);
         } finally {
@@ -32,6 +45,34 @@ const Login = () => {
 
     const handleGoogleLogin = async () => {
         try {
+            signInWithGoogle()
+                .then(async (result) => {
+                    const user = result.user;
+                    const { metadata: { createdAt, creationTime, lastSignInTime, lastLoginAt }, uid, photoURL, email, displayName, } = user;
+                    const userDataToPost = {
+                        displayName,
+                        email,
+                        photoURL, createdAt, creationTime, lastSignInTime, lastLoginAt, uid
+                    };
+                    const { data: responseFromServer } = await axios.put('/register', userDataToPost);
+                    // console.log("responseFromServer:  ", responseFromServer);
+                    if (!responseFromServer?.success) {
+                        toast.error(responseFromServer?.message);
+                        return
+                    } else {
+                        toast.success(responseFromServer?.message)
+                        // console.log("user from google provider: ", user);
+                        toast.success("Google Sign-in Successful!");
+                        navigate(from, { replace: true });
+                    }
+
+
+
+                }).catch((error) => {
+                    const errorCode = error.code;
+                    const errorMessage = error.message;
+                    toast.error([errorMessage, errorCode])
+                });
             toast.success("Google Sign-in Successful!");
             navigate(from, { replace: true });
         } catch (err) {
