@@ -2,7 +2,6 @@ import { useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router";
 import { toast } from "react-hot-toast";
 import { FaGoogle } from "react-icons/fa";
-import { auth } from "../../config/config.firebase";
 import useAxios from "../../hooks/useAxios";
 import useAuth from "../../hooks/useAuth";
 
@@ -14,7 +13,7 @@ const Register = () => {
     const [passwordError, setPasswordError] = useState("");
     const [loading, setLoading] = useState(false);
     const axios = useAxios(); 
-    const { createUser, updateUserProfile } = useAuth();
+    const { createUser, updateUserProfile, signInWithGoogle, } = useAuth();
 
     const navigate = useNavigate();
     const location = useLocation();
@@ -49,12 +48,12 @@ const Register = () => {
         }
 
         try {
-            console.log({ name, email, photoURL, password });
+            // console.log({ name, email, photoURL, password });
             createUser(email, password)
-                .then((userCredential) => {
+                .then( async (userCredential) => {
                     // Signed up 
                     const user = userCredential.user;
-                    console.log(user);
+                    // console.log(user);
                     const { metadata: { createdAt, creationTime, lastSignInTime, lastLoginAt }, uid} = user; 
 
                     const userDataToRegister = {
@@ -62,13 +61,13 @@ const Register = () => {
                         email, 
                         photoURL, createdAt, creationTime, lastSignInTime, lastLoginAt, uid
                     }; 
-                    const resultFromServer = axios.post('/register', userDataToRegister); 
-                    if(!resultFromServer.success){
-                        toast.error(resultFromServer.message); 
+                    const resultFromServer = await axios.post('/register', userDataToRegister); 
+                    if(!resultFromServer?.data?.success){
+                        toast.error(resultFromServer?.data?.message); 
                     } else {
-                        toast.success(resultFromServer.message)
+                        toast.success(resultFromServer?.data?.message)
                     }
-
+                    // console.log("resultFromServer : ", resultFromServer);
 
                     updateUserProfile({
                         displayName: name, photoURL: photoURL
@@ -99,9 +98,34 @@ const Register = () => {
 
     const handleGoogleSignup = async () => {
         try {
-            // 👉 Replace this with your actual Google Sign-up logic
-            toast.success("Google Sign-up Successful!");
-            navigate(from, { replace: true });
+            signInWithGoogle()
+                .then( async (result) => {
+                    const user = result.user;
+                    const { metadata: { createdAt, creationTime, lastSignInTime, lastLoginAt }, uid, photoURL, email, displayName,  } = user; 
+                    const userDataToPost = {
+                        displayName,
+                        email,
+                        photoURL, createdAt, creationTime, lastSignInTime, lastLoginAt, uid
+                    }; 
+                    const { data: responseFromServer } = await axios.put('/register', userDataToPost); 
+                    // console.log("responseFromServer:  ", responseFromServer);
+                    if (!responseFromServer?.success) {
+                        toast.error(responseFromServer?.message);
+                        return
+                    } else {
+                        toast.success(responseFromServer?.message)
+                        // console.log("user from google provider: ", user);
+                        toast.success("Google Sign-up Successful!");
+                        navigate(from, { replace: true });
+                    }
+                    
+                    
+
+                }).catch((error) => {
+                    const errorCode = error.code;
+                    const errorMessage = error.message;
+                    toast.error([errorMessage , errorCode])
+                });
         } catch (err) {
             toast.error("Google Sign-up Failed!");
             console.log(err?.message);
