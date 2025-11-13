@@ -1,7 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router';
+import useAuth from '../../hooks/useAuth';
 
 const NavBar = () => {
+    const { logOut, user } = useAuth(); 
+    
     const ListItems = () => {
         return <>
             <li><Link to='all-products'>All Products</Link></li>
@@ -11,11 +14,21 @@ const NavBar = () => {
             <li><Link to='about-us'>About us</Link></li>
         </>
     }; 
+    console.log(user);
 
     const NavEnd = () => {
         return <>
-            <Link to={'/login'} className="btn mr-2">Login</Link>
-            <Link to={'/register'} className="btn mr-2">Register</Link>
+            {user ? <div className='space-x-2'>
+                <div className="avatar">
+                    <div className="w-6 md:w-8 lg:w-10 rounded-full">
+                        <img src={user ? user?.photoURL : "https://img.daisyui.com/images/profile/demo/yellingcat@192.webp"} />
+                    </div>
+                </div>
+                <button onClick={() => logOut()} className="btn mr-2">Logout </button>
+            </div> : <>
+                    <Link to={'/login'} className="btn mr-2">Login</Link>
+                    <Link to={'/register'} className="btn mr-2">Register</Link>
+            </>}          
         </>
 
     }
