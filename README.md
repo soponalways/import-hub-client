@@ -1,18 +1,57 @@
-# React + Vite
+# 🌍 Import Export Hub
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+An international **Import-Export Management Platform** that connects global traders, suppliers, and buyers in one place. This full-stack web application allows users to **add, manage, and import/export products** with ease.  
 
-Currently, two official plugins are available:
+🔗 **Live Site:** [https://import-export-sr.web.app/](https://import-export-sr.web.app/)  
+💻 **Client Side Repository:** [https://github.com/mdjoynalhosen20/import-hub-client](https://github.com/mdjoynalhosen20/import-hub-client)  
+🖥️ **Server Side Repository:** [https://github.com/mdjoynalhosen20/import-hub-server-](https://github.com/mdjoynalhosen20/import-hub-server-)  
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## React Compiler
+## 🚀 Features
 
-The React Compiler is enabled on this template. See [this documentation](https://react.dev/learn/react-compiler) for more information.
+- ✅ **User Authentication:** Secure login, registration, and Google social login using Firebase Authentication.  
+- 📦 **Add & Manage Exports:** Users can add new export products with details such as image, price, origin, and quantity.  
+- 🧾 **Product Management:** Logged-in users can view, update, and delete their added export items dynamically.  
+- 🌐 **Import Products:** Users can import products directly from the details page with quantity validation and database updates.  
+- 🪶 **Modern UI & Responsiveness:** Beautifully designed with **Tailwind CSS** and **DaisyUI themeing**, fully responsive for desktop, tablet, and mobile.  
+- ⚙️ **Full CRUD Operations:** Seamless integration between client and server using **MongoDB**, **Express.js**, and **React.js**.  
+- 🔔 **Interactive Alerts:** Real-time toasts and modals powered by **React Hot Toast** and **SweetAlert2** for better UX.  
 
-Note: This will impact Vite dev & build performances.
+---
 
-## Expanding the ESLint configuration
+## 🛠️ Tech Stack
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+**Frontend:** React.js, React Router, Tailwind CSS, DaisyUI, Firebase, React Hook Form, React Hot Toast  
+**Backend:** Node.js, Express.js, MongoDB  
+**Hosting:** Firebase (Client), Vercel (Server)
+
+---
+
+## 📖 Pages Overview
+
+- 🏠 **Home Page** – Hero banner, featured sections, and call-to-actions.  
+- 🧾 **All Products** – Displays all export items from the database in a responsive grid.  
+- 📤 **Add Export** – Allows authenticated users to add new export items.  
+- 📦 **My Exports** – Manage personal export items (update/delete).  
+- 📥 **My Imports** – Displays imported products with quantity and details.  
+- 📄 **Product Details** – Shows detailed information and import functionality.  
+- 👥 **About Us** – Overview of the company’s mission, values, and trade goals.  
+- 🔐 **Login / Register** – Secure authentication pages.  
+<!-- 
+---
+
+## 💡 Developer Notes
+
+- This project demonstrates **full-stack MERN integration** with real-time UI updates.  
+- Built with focus on **scalability, design consistency, and user-friendly interactions**.  
+- Perfect for learning or showcasing a **trade management platform** built using modern web technologies.
+
+---
+
+### 👨‍💻 Developed by
+**Sopon Ahmed & Team**  
+✨ Passionate about building scalable and modern web applications.
+
+--- -->
+
