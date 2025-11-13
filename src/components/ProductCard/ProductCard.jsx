@@ -38,7 +38,7 @@ const ProductCard = ({ product }) => {
                 {/* See Details Button */}
                 <div className="card-actions justify-end mt-4">
                     <Link
-                        to={`/productDetails/${_id || name.replace(/\s+/g, "-").toLowerCase()}`}
+                        to={`/productDetails?id=${_id || name.replace(/\s+/g, "-").toLowerCase()}`}
                         className="btn btn-primary btn-sm"
                     >
                         See Details
