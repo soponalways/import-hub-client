@@ -10,6 +10,7 @@ import AllProducts from "../pages/AllProducts/AllProducts";
 import MyExports from "../pages/MyExports/MyExports";
 import MyImports from "../pages/MyImports/MyImports";
 import AboutUs from "../pages/AboutUs/AboutUs";
+import ProductDetails from "../pages/ProductDetails/ProductDetails";
 
 const router = createBrowserRouter([
     {
@@ -57,6 +58,10 @@ const router = createBrowserRouter([
             {
                 path: "/about-us", 
                 Component: AboutUs
+            }, 
+            {
+                path: '/productDetails/:id',
+                Component: ProductDetails
             }
         ]
     }
