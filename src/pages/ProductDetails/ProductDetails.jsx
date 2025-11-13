@@ -9,7 +9,7 @@ const ProductDetails = () => {
     const { id } = useParams();
     const { user } = useAuth();
     const [product, setProduct] = useState(null);
-    console.log(product);
+    // console.log(product);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
