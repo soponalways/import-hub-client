@@ -3,8 +3,8 @@
 An international **Import-Export Management Platform** that connects global traders, suppliers, and buyers in one place. This full-stack web application allows users to **add, manage, and import/export products** with ease.  
 
 🔗 **Live Site:** [https://import-export-sr.web.app/](https://import-export-sr.web.app/)  
-💻 **Client Side Repository:** [https://github.com/mdjoynalhosen20/import-hub-client](https://github.com/mdjoynalhosen20/import-hub-client)  
-🖥️ **Server Side Repository:** [https://github.com/mdjoynalhosen20/import-hub-server-](https://github.com/mdjoynalhosen20/import-hub-server-)  
+💻 **Client Side Repository:** [https://github.com/soponalways/import-hub-client](https://github.com/soponalways/import-hub-client)  
+🖥️ **Server Side Repository:** [https://github.com/soponalways/import-hub-client](https://github.com/soponalways/import-hub-client)  
 
 ---
 
